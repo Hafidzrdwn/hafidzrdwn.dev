@@ -1,0 +1,20 @@
+{
+  "name": "hafidzrdwn_dev",
+  "version": "1.0.0",
+  "description": "Personal portal and project showcase of Hafidz Ridwan Cahya.",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hafidzrdwn/hafidzrdwn.dev.git"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "astro": "^7.3.5"
+  }
+}

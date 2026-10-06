@@ -1,0 +1,28 @@
+---
+import SEO from '../components/SEO.astro';
+import '../styles/global.css';
+
+interface ProjectItem {
+  title: string;
+  description: string;
+  url: string;
+}
+
+interface Props {
+  title?: string;
+  description?: string;
+  projects?: ProjectItem[];
+}
+
+const { title, description, projects = [] } = Astro.props;
+---
+
+<!doctype html>
+<html lang="id">
+  <head>
+    <SEO title={title} description={description} projects={projects} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

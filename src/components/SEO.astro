@@ -1,0 +1,121 @@
+---
+interface ProjectItem {
+  title: string;
+  description: string;
+  url: string;
+}
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  canonicalURL?: string;
+  projects?: ProjectItem[];
+}
+
+const {
+  title = "Hafidz Ridwan Cahya - Full-Stack Web Developer Surabaya",
+  description = "Portal pribadi Hafidz Ridwan Cahya, seorang Full-Stack Web Developer dan mahasiswa Sistem Informasi di UPN Veteran Jawa Timur. Cek portofolio dan mini project saya.",
+  image = "https://hafidzrdwn.dev/preview.jpeg",
+  canonicalURL = "https://hafidzrdwn.dev/",
+  projects = [],
+} = Astro.props;
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Hafidz Ridwan Cahya",
+  "alternateName": ["Hafidz Ridwan", "hafidzrdwn"],
+  "url": "https://hafidzrdwn.dev/",
+  "image": image,
+  "jobTitle": "Full-Stack Web Developer",
+  "gender": "Male",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Surabaya",
+    "addressRegion": "Jawa Timur",
+    "addressCountry": "ID"
+  },
+  "alumniOf": {
+    "@type": "EducationalOrganization",
+    "name": "Universitas Pembangunan Nasional 'Veteran' Jawa Timur"
+  },
+  "knowsAbout": [
+    "Full-Stack Web Development",
+    "Frontend Engineering",
+    "Backend Engineering",
+    "DevOps",
+    "Software Architecture",
+    "JavaScript",
+    "TypeScript",
+    "Astro"
+  ],
+  "sameAs": [
+    "https://github.com/Hafidzrdwn",
+    "https://hafidzrdwn.dev"
+  ]
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Hafidz Ridwan Cahya Portal",
+  "url": "https://hafidzrdwn.dev/",
+  "description": description,
+  "author": {
+    "@type": "Person",
+    "name": "Hafidz Ridwan Cahya"
+  }
+};
+
+const itemListSchema = projects.length > 0 ? {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "name": "Directory of Projects by Hafidz Ridwan Cahya",
+  "description": "Showcase of mini projects and web applications created by Hafidz Ridwan Cahya",
+  "itemListElement": projects.map((proj, idx) => ({
+    "@type": "ListItem",
+    "position": idx + 1,
+    "name": proj.title,
+    "description": proj.description,
+    "url": proj.url
+  }))
+} : null;
+---
+
+<!-- Global Metadata -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="canonical" href={canonicalURL} />
+
+<!-- Primary Meta Tags -->
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+<meta name="keywords" content="Hafidz Ridwan Cahya, Full-Stack Web Developer, Frontend, Backend, Sistem Informasi UPN Jatim, Sifo 23, Surabaya, Sidoarjo, Jawa Timur, Web Developer Indonesia, hafidzrdwn" />
+<meta name="author" content="Hafidz Ridwan Cahya" />
+<meta name="robots" content="index, follow, max-image-preview:large" />
+<meta name="theme-color" content="#090d16" />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content={canonicalURL} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={image} />
+<meta property="og:locale" content="id_ID" />
+<meta property="og:site_name" content="Hafidz Ridwan Cahya" />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={canonicalURL} />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={image} />
+
+<!-- Structured Data (JSON-LD) for Maximum SEO Boost -->
+<script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+<script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+{itemListSchema && <script type="application/ld+json" set:html={JSON.stringify(itemListSchema)} />}

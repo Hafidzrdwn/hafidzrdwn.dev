@@ -1,0 +1,246 @@
+---
+import ExternalLink from './icons/ExternalLink.astro';
+import SparkleIcon from './icons/SparkleIcon.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  url: string;
+  category?: string;
+  tags?: string[];
+  featured?: boolean;
+  status?: string;
+  badge?: string;
+}
+
+const {
+  title,
+  description,
+  url,
+  category = "Web App",
+  tags = [],
+  featured = false,
+  status = "Live",
+  badge,
+} = Astro.props;
+---
+
+<article class={`project-card ${featured ? 'is-featured' : ''}`}>
+  <a 
+    href={url} 
+    target="_blank" 
+    rel="noopener noreferrer" 
+    class="project-link-wrapper"
+    aria-label={`Buka ${title}: ${description}`}
+  >
+    <div class="card-inner">
+      <div class="card-header">
+        <div class="title-meta">
+          <div class="badges-row">
+            <span class="category-badge">{category}</span>
+            {featured && (
+              <span class="featured-badge">
+                <SparkleIcon size={12} />
+                <span>Featured</span>
+              </span>
+            )}
+            {badge && !featured && (
+              <span class="custom-badge">{badge}</span>
+            )}
+          </div>
+          <h3 class="project-title">
+            <span>{title}</span>
+            <span class="arrow-icon" aria-hidden="true">
+              <ExternalLink size={16} />
+            </span>
+          </h3>
+        </div>
+
+        <div class="status-indicator">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          <span class="status-text">{status}</span>
+        </div>
+      </div>
+
+      <p class="project-desc">{description}</p>
+
+      {tags.length > 0 && (
+        <div class="tags-container">
+          {tags.map((tag) => (
+            <span class="tag-chip">#{tag}</span>
+          ))}
+        </div>
+      )}
+    </div>
+  </a>
+</article>
+
+<style>
+  .project-card {
+    position: relative;
+    border-radius: var(--radius-md);
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border-subtle);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), 
+                border-color 0.2s ease, 
+                box-shadow 0.2s ease,
+                background-color 0.2s ease;
+    overflow: hidden;
+  }
+
+  .project-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--border-focus);
+    background-color: var(--bg-surface-hover);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .project-card.is-featured {
+    border-color: rgba(56, 189, 248, 0.25);
+    background: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(30, 41, 59, 0.4));
+  }
+
+  .project-card.is-featured:hover {
+    border-color: rgba(56, 189, 248, 0.55);
+  }
+
+  .project-link-wrapper {
+    display: block;
+    padding: 1.25rem 1.35rem;
+    height: 100%;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .card-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .title-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .badges-row {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+  }
+
+  .category-badge {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.15rem 0.55rem;
+    border-radius: var(--radius-full);
+    background-color: rgba(255, 255, 255, 0.06);
+    color: var(--text-secondary);
+  }
+
+  .featured-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.15rem 0.55rem;
+    border-radius: var(--radius-full);
+    background: rgba(56, 189, 248, 0.15);
+    color: var(--accent-cyan);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+  }
+
+  .custom-badge {
+    font-size: 0.72rem;
+    font-weight: 500;
+    padding: 0.15rem 0.55rem;
+    border-radius: var(--radius-full);
+    background: rgba(99, 102, 241, 0.12);
+    color: var(--accent-indigo);
+  }
+
+  .project-title {
+    font-size: 1.18rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    line-height: 1.3;
+  }
+
+  .arrow-icon {
+    display: inline-flex;
+    align-items: center;
+    color: var(--text-muted);
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+
+  .project-card:hover .arrow-icon {
+    transform: translate(2px, -2px);
+    color: var(--accent-cyan);
+  }
+
+  .status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.2rem 0.6rem;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.25);
+    border-radius: var(--radius-full);
+    flex-shrink: 0;
+  }
+
+  .pulse-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--accent-emerald);
+    box-shadow: 0 0 8px var(--accent-emerald);
+  }
+
+  .status-text {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--accent-emerald);
+    letter-spacing: 0.02em;
+  }
+
+  .project-desc {
+    color: var(--text-secondary);
+    font-size: 0.92rem;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  .tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem 0.5rem;
+    margin-top: 0.25rem;
+  }
+
+  .tag-chip {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    transition: color 0.15s ease;
+  }
+
+  .project-card:hover .tag-chip {
+    color: #cbd5e1;
+  }
+</style>
